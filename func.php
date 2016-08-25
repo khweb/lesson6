@@ -1,5 +1,5 @@
-
-<!--
+<?php
+/**
     Создайте класс GuestBook, который будет удовлетворять следующим требованиям: 
     
 +   1.В конструктор передается путь до файла с данными гостевой книги, в нём же происходит 
@@ -13,43 +13,56 @@
 
 ?   2.* Продумайте - какие части функционала можно вынести в базовый (родительский) класс TextFile, а какие - сделать в унаследованном от него классе GuestBook
 
--->
+*/
 
 
-<?php class GuestBook {
+class GuestBook {
     
-            protected $location;// защищенное свойство объекта
-            public $read;
-            public $usertext;
-            
-            public function __construct($location){ 
-            $this->location = $location; 
-            $this->read = file($location);
-            } 
+    protected $fileData;
+    protected $filePath;
+    protected $userText = [];
     
-            public function getData(){
-                return $this->read;
-            }
+    public function __construct($filePath) { 
+        // Если у нас строка - то будем считать что это правильный путь )) а то могнут передать массив, или число...
+        if (is_string($filePath)) {
+            $this->filePath = $filePath;
+            $this->fileData = file($filePath);
+        } 
         
-            public function append($text){
-                file_put_contents($this->location , "\n" . $text , FILE_APPEND);
-            }
-            
-            public function save(){
-                
-            if ($this->usertext != '') {
-            $objGuestbook-> append($this->usertext); // Fatal error: Call to a member function append() on null
-            header ('Location: /index.php');
-                } else {
-            header ('Location: /index.php');
-                }
-            }   
+    } 
+
+    public function getData() {
+        return $this->fileData;
+    }
+
+    public function append($text) {
+        // тут тебе нужно все данные что будут заходить в метод append записывать в массив
+        // например :
+        // $objGuestbook->append('comment_1');
+        // $objGuestbook->append('comment_2');
+        // $objGuestbook->append('comment_3');
+        // а потом когда вызывается метод СЭЙВ - массив сохраняется в фаил.
+        // $objGuestbook->save();
+        
+        // $this->usertext[] - уже массив. тебе в него нужно дописывать данные. 
+        // что бы с каждым вызовом $objGuestbook->append('comment_N')
+        // они дописывались в массив.
+
+    }
+    
+    public function save() {
+        // тут тебе массив нужно разложить на строку и дописать ее в фаил.
+        // или в цикле каждый елемент массива дописывать в фаил.
+        file_put_contents($this->filePath, "\n".$text, FILE_APPEND);
+        header ('Location: /index.php');
+
+    }  
 }
 
 
 
 $objGuestbook = new GuestBook(__DIR__.'/db.txt');// ввод в конструктор пути к читаемому файлу
-$objGuestbook->usertext = $_GET[coment]; //принимаем текст с импута
+$objGuestbook->append($_GET[coment]); //принимаем текст с импута
 $objGuestbook->save(); // вызываем медот сохранения текста в файл с массивом
 
 
