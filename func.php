@@ -17,7 +17,7 @@
 -->
 
 
-<?php class TextFile {
+<?php class GuestBook {
     
             protected $location;// защищенное свойство объекта
             public $read;
@@ -34,12 +34,7 @@
             public function append($text){
                 file_put_contents($this->location , "\n" . $text , FILE_APPEND);
             }
-            
-            
-}
-
-class GuestBook extends TextFile {
-    
+           
             public function save(){
             if (isset($_GET[coment])) {
             $usertext =$_GET[coment];
