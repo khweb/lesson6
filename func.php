@@ -21,11 +21,14 @@
     
             protected $location;// защищенное свойство объекта
             public $read;
+            public $usertext;
             
             public function __construct($location){ 
             $this->location = $location; 
             $this->read = file($location);
             } 
+    
+           
     
             public function getData(){
                 return $this->read;
@@ -34,27 +37,23 @@
             public function append($text){
                 file_put_contents($this->location , "\n" . $text , FILE_APPEND);
             }
-           
+            
             public function save(){
-            if (isset($_GET[coment])) {
-            $usertext =$_GET[coment];
-                if ($usertext != '') {
-            $objGuestbook-> append($usertext); // Fatal error: Call to a member function append() on null
+                
+            if ($this->usertext != '') {
+            $objGuestbook-> append($this->usertext); // Fatal error: Call to a member function append() on null
             header ('Location: /index.php');
                 } else {
             header ('Location: /index.php');
-        }
-    }
-                
-            }
-    
+                }
+            }   
 }
 
-$objGuestbook = new GuestBook(__DIR__.'/db.txt');// ввод в конструктор пути к читаемому файлу
+
+
+$objGuestbook = new GuestBook(__DIR__.'/db.txt');// ввод в конструктор путь к читаемому файлу
+$objGuestbook->usertext= $_GET[coment];
 $objGuestbook->save();
 
-
-
-   
 
 ?>
