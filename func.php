@@ -41,6 +41,10 @@ class TextFile {
 
 class GuestBook extends TextFile {
     
+            public save(){
+                
+            }
+    
 }
 
 $objGuestbook = new GuestBook(__DIR__.'/db.txt');// ввод в конструктор путь к читаемому файлу
