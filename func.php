@@ -55,7 +55,7 @@ class GuestBook extends TextFile {
     
 }
 
-$objGuestbook = new GuestBook(__DIR__.'/db.txt');// ввод в конструктор путь к читаемому файлу
+$objGuestbook = new GuestBook(__DIR__.'/db.txt');// ввод в конструктор пути к читаемому файлу
 $objGuestbook->save();
 
 
