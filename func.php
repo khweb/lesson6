@@ -45,7 +45,7 @@ class GuestBook extends TextFile {
             if (isset($_GET[coment])) {
             $usertext =$_GET[coment];
                 if ($usertext != '') {
-            $objGuestbook-> append($usertext);
+            $objGuestbook-> append($usertext); // Fatal error: Call to a member function append() on null in
             header ('Location: /index.php');
                 } else {
             header ('Location: /index.php');
