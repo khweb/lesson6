@@ -19,8 +19,7 @@ class GuestBook {
     protected $userText = [];
     
     public function __construct($filePath) { 
-        // Если у нас строка - то будем считать что это правильный путь )) а то могнут передать массив, или число...
-        if (is_string($filePath)) {
+            if (is_string($filePath)) {
             $this->filePath = $filePath;
             $this->fileData = file($filePath);
         } 
@@ -33,30 +32,24 @@ class GuestBook {
         if ('' != $text) {
         $this->userText[] = $text;
         header ('Location: /index.php');        
-        }
-        // тут тебе нужно все данные что будут заходить в метод append записывать в массив
-        // например :
-        // $objGuestbook->append('comment_1');
-        // $objGuestbook->append('comment_2');
-        // $objGuestbook->append('comment_3');
-        // а потом когда вызывается метод СЭЙВ - массив сохраняется в фаил.
-        // $objGuestbook->save();
-        
-        // $this->usertext[] - уже массив. тебе в него нужно дописывать данные. 
-        // что бы с каждым вызовом $objGuestbook->append('comment_N')
-        // они дописывались в массив.
+        } 
     }
     
     public function save() {
+       
        foreach( $this->userText as $key=>$value) {
              file_put_contents($this->filePath, "\n".$value, FILE_APPEND);
 
        }
-        
+       header ('Location: /index.php');   
     } 
 }
+
+ 
 $objGuestbook = new GuestBook(__DIR__.'/db.txt');// ввод в конструктор пути к читаемому файлу
+
+if (isset($_GET[comment])){
 $objGuestbook->append($_GET[comment]); //принимаем текст с импута
 $objGuestbook->save(); // вызываем медот сохранения текста в файл с массивом
-
+} 
 ?>
