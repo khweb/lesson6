@@ -28,8 +28,6 @@
             $this->read = file($location);
             } 
     
-           
-    
             public function getData(){
                 return $this->read;
             }
