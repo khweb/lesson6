@@ -17,8 +17,7 @@
 -->
 
 
-<?php
-class TextFile {
+<?php class TextFile {
     
             protected $location;// защищенное свойство объекта
             public $read;
@@ -41,25 +40,27 @@ class TextFile {
 
 class GuestBook extends TextFile {
     
-            public save(){
+            public function save(){
+                
+            if (isset($_GET[coment])) {
+            $usertext =$_GET[coment];
+                if ($usertext != '') {
+            $objGuestbook-> append($usertext);
+            header ('Location: /index.php');
+                } else {
+            header ('Location: /index.php');
+        }
+    }
                 
             }
     
 }
 
 $objGuestbook = new GuestBook(__DIR__.'/db.txt');// ввод в конструктор путь к читаемому файлу
+$objGuestbook->save();
 
 
-/* Если поле не пустое, то сохраняем массив в файл. Вопрос! Как описать его в метод save()? */
 
-    if (isset($_GET[coment])) {
-        $usertext =$_GET[coment];
-        if ($usertext != '') {
-            $objGuestbook-> append($usertext);
-            header ('Location: /index.php');
-        } else {
-            header ('Location: /index.php');
-        }
-    }
+   
 
 ?>
