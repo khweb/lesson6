@@ -10,12 +10,8 @@
 +   3.Метод append($text) добавляет новую запись к массиву записей
     
 ?   4.Метод save() сохраняет массив в файл
-
 ?   2.* Продумайте - какие части функционала можно вынести в базовый (родительский) класс TextFile, а какие - сделать в унаследованном от него классе GuestBook
-
 */
-
-
 class GuestBook {
     
     protected $fileData;
@@ -30,12 +26,14 @@ class GuestBook {
         } 
         
     } 
-
     public function getData() {
         return $this->fileData;
     }
-
     public function append($text) {
+        if ('' != $text) {
+        $this->userText[] = $text;
+        header ('Location: /index.php');        
+        }
         // тут тебе нужно все данные что будут заходить в метод append записывать в массив
         // например :
         // $objGuestbook->append('comment_1');
@@ -47,23 +45,18 @@ class GuestBook {
         // $this->usertext[] - уже массив. тебе в него нужно дописывать данные. 
         // что бы с каждым вызовом $objGuestbook->append('comment_N')
         // они дописывались в массив.
-
     }
     
     public function save() {
-        // тут тебе массив нужно разложить на строку и дописать ее в фаил.
-        // или в цикле каждый елемент массива дописывать в фаил.
-        file_put_contents($this->filePath, "\n".$text, FILE_APPEND);
-        header ('Location: /index.php');
+       foreach( $this->userText as $key=>$value) {
+             file_put_contents($this->filePath, "\n".$value, FILE_APPEND);
 
-    }  
+       }
+        
+    } 
 }
-
-
-
 $objGuestbook = new GuestBook(__DIR__.'/db.txt');// ввод в конструктор пути к читаемому файлу
-$objGuestbook->append($_GET[coment]); //принимаем текст с импута
+$objGuestbook->append($_GET[comment]); //принимаем текст с импута
 $objGuestbook->save(); // вызываем медот сохранения текста в файл с массивом
-
 
 ?>
