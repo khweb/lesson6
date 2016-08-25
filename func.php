@@ -41,7 +41,6 @@
 class GuestBook extends TextFile {
     
             public function save(){
-                
             if (isset($_GET[coment])) {
             $usertext =$_GET[coment];
                 if ($usertext != '') {
